@@ -146,17 +146,10 @@ No data ever leaves your browser. Everything is stored locally using `chrome.sto
 
 ---
 
-## 🌐 Supported Platforms
+🌐 Supported Platforms
+PlatformURLCaptureInjectStatusClaudeclaude.ai✅✅SupportedChatGPTchat.openai.com / chatgpt.com✅✅SupportedGeminigemini.google.com✅✅SupportedGroqgroq.com✅✅SupportedDeepSeekchat.deepseek.com✅✅SupportedPerplexityperplexity.ai✅✅SupportedMistral (Le Chat)chat.mistral.ai✅✅SupportedGrokgrok.com / x.com/i/grok✅✅SupportedCohere (Coral)coral.cohere.com✅✅SupportedMeta AImeta.ai✅✅SupportedMicrosoft Copilotcopilot.microsoft.com✅✅SupportedPoepoe.com✅✅SupportedHuggingChathuggingface.co/chat🔜🔜RoadmapPhindphind.com🔜🔜RoadmapYou.comyou.com🔜🔜RoadmapKimi (Moonshot)kimi.moonshot.cn🔜🔜Roadmap
 
-| Platform | Capture | Inject | Status |
-|---|---|---|---|
-| Claude (claude.ai) | ✅ | ✅ | Supported |
-| ChatGPT (chat.openai.com) | ✅ | ✅ | Supported |
-| ChatGPT (chatgpt.com) | ✅ | ✅ | Supported |
-| Gemini (gemini.google.com) | ✅ | ✅ | Supported |
-| Perplexity | 🔜 | 🔜 | Roadmap |
-| Mistral (le chat) | 🔜 | 🔜 | Roadmap |
-| Grok (x.com) | 🔜 | 🔜 | Roadmap |
+Note: DOM selectors may occasionally break when a platform updates its UI. See Updating DOM Selectors if a scraper stops working.
 
 ---
 
