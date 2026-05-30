@@ -1,7 +1,7 @@
 export async function compressSession(session) {
     const msgs = session.messages;
 
-    if (msg.length <= 10) return session; // No need to compress
+    if (msgs.length <= 20) return session; // No need to compress
     const head = msgs.slice(0, 3);
     const tail = msgs.slice(-5);
     const middle = msgs.slice(3, -5);

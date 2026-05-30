@@ -23,5 +23,7 @@
     window.__chatbridge.provider = provider;
 
     // Tell background which provider this tab is
-    chrome.runtime.sendMessage({ action: 'PROVIDER_DETECTED', provider, url: window.location.href });
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage({ action: 'PROVIDER_DETECTED', provider, url: window.location.href });
+    }
 })();

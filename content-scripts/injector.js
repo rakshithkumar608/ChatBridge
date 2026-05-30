@@ -71,13 +71,13 @@
     }
 
 
-    function waitForElement(selector, timeout = 3000) {
+    function waitForElement(selector, timeout = 10000) {
         return new Promise((resolve) => {
             const el = document.querySelector(selector);
             if (el) return resolve(el);
 
             const observer = new MutationObserver(() => {
-                const found = document.wuerySelector(selector);
+                const found = document.querySelector(selector);
                 if (found) {
                     observer.disconnect();
                     resolve(found);
@@ -104,4 +104,4 @@
             }
             return true;
         })
-})
+})();

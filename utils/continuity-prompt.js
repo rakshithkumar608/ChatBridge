@@ -42,7 +42,7 @@ export function buildContinuityPrompt(session, options = {}) {
 export function buildEnhancedPrompt(originalPrompt, enhancements = {}) {
     const {
         addContext = '',
-        tsrgetAudience = '',
+        targetAudience = '',
         outputFormat = '',
         tone = ''
     } = enhancements;

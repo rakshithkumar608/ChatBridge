@@ -29,9 +29,13 @@
         `;
 
         btn.addEventListener('click', () => {
-            chrome.runtime.sendMessage({
-                action: 'OPEN_ENHANCER'
-            });
+            if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+                chrome.runtime.sendMessage({
+                    action: 'OPEN_ENHANCER'
+                });
+            } else {
+                console.warn('ChatBridge: chrome.runtime not available');
+            }
         });
 
         document.body.appendChild(btn);

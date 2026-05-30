@@ -23,6 +23,15 @@ async function detectProvider() {
   if (url.includes('claude.ai')) badge.textContent = '🟠 Claude';
   else if (url.includes('chatgpt.com') || url.includes('openai.com')) badge.textContent = '🟢 ChatGPT';
   else if (url.includes('gemini.google.com')) badge.textContent = '🔵 Gemini';
+  else if (url.includes('groq.com')) badge.textContent = '⚡ Groq';
+  else if (url.includes('deepseek.com')) badge.textContent = '🐋 DeepSeek';
+  else if (url.includes('perplexity.ai')) badge.textContent = '🧭 Perplexity';
+  else if (url.includes('mistral.ai')) badge.textContent = '🌪️ Mistral';
+  else if (url.includes('grok.com') || url.includes('x.com/i/grok')) badge.textContent = '✖️ Grok';
+  else if (url.includes('cohere.com')) badge.textContent = '🌿 Cohere';
+  else if (url.includes('meta.ai')) badge.textContent = '♾️ Meta AI';
+  else if (url.includes('copilot.microsoft.com')) badge.textContent = '🤖 Copilot';
+  else if (url.includes('poe.com')) badge.textContent = '👻 Poe';
   else { badge.textContent = '⚠️ No AI detected'; badge.style.color = 'orange'; }
 }
 
@@ -69,9 +78,28 @@ async function loadSessions() {
       <div class="session-actions">
         <select class="target-select" data-id="${s.id}">
           <option value="">Transfer to...</option>
-          <option value="claude">Claude (new account)</option>
-          <option value="chatgpt">ChatGPT</option>
-          <option value="gemini">Gemini</option>
+          <optgroup label="Anthropic">
+            <option value="claude">Claude (new account)</option>
+          </optgroup>
+          <optgroup label="OpenAI">
+            <option value="chatgpt">ChatGPT</option>
+          </optgroup>
+          <optgroup label="Google">
+            <option value="gemini">Gemini</option>
+          </optgroup>
+          <optgroup label="xAI">
+            <option value="grok">Grok</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option value="groq">Groq</option>
+            <option value="deepseek">DeepSeek</option>
+            <option value="perplexity">Perplexity</option>
+            <option value="mistral">Mistral (Le Chat)</option>
+            <option value="cohere">Cohere (Coral)</option>
+            <option value="meta">Meta AI</option>
+            <option value="copilot">Microsoft Copilot</option>
+            <option value="poe">Poe</option>
+          </optgroup>
         </select>
         <button class="btn small transfer-btn" data-id="${s.id}">🚀 Transfer</button>
         <button class="btn small danger delete-btn" data-id="${s.id}">🗑️</button>
@@ -116,21 +144,12 @@ async function transferSession(id) {
   poe:        'https://poe.com/'
   };
 
-  // Open new tab and inject after load
-  const newTab = await chrome.tabs.create({ url: URLS[target] });
-
-  // Wait for the new tab to finish loading then inject
-  chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
-    if (tabId === newTab.id && info.status === 'complete') {
-      chrome.tabs.onUpdated.removeListener(listener);
-      setTimeout(() => {
-        chrome.tabs.sendMessage(newTab.id, {
-          action: 'INJECT_PROMPT',
-          text: prompt,
-          autoSubmit: false // Let user review before sending
-        });
-      }, 1500); // Give page JS time to boot
-    }
+  // Delegate opening tab and injecting to background script
+  chrome.runtime.sendMessage({
+    action: 'TRANSFER_SESSION',
+    target: target,
+    url: URLS[target],
+    prompt: prompt
   });
 }
 

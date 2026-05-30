@@ -3,7 +3,7 @@ import { compressSession } from './context-compressor.js';
 
 const tabProviders = {};
 
-chrome.runtime.onMessage.addListener((meg, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     const tabId = sender.tab?.id;
 
     switch (msg.action) {
@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener((meg, sender, sendResponse) => {
             sendResponse({ ok: true });
             break;
 
-        case 'OPEN_ENHANCER':
+        case 'SAVE_SESSION':
             handleSaveSession(msg.session, msg.compress).then(sendResponse);
             return true;
 
@@ -33,14 +33,37 @@ chrome.runtime.onMessage.addListener((meg, sender, sendResponse) => {
             chrome.action.openPopup();
             sendResponse({ ok: true });
             break;
+
+        case 'TRANSFER_SESSION':
+            chrome.tabs.create({ url: msg.url }, async (newTab) => {
+                chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
+                    if (tabId === newTab.id && info.status === 'complete') {
+                        chrome.tabs.onUpdated.removeListener(listener);
+                        setTimeout(async () => {
+                            const settings = await chrome.storage.local.get('chatbridge_settings');
+                            const autoSubmit = settings.chatbridge_settings?.autoSubmit || false;
+                            
+                            chrome.tabs.sendMessage(newTab.id, {
+                                action: 'INJECT_PROMPT',
+                                text: msg.prompt,
+                                autoSubmit: autoSubmit
+                            });
+                        }, 2000); // Give page JS time to boot
+                    }
+                });
+            });
+            sendResponse({ ok: true });
+            break;
     }
 });
 
 
 async function handleSaveSession(session, shouldCompress = false) {
     let finalSession = session;
+    const data = await chrome.storage.local.get('chatbridge_settings');
+    const threshold = data.chatbridge_settings?.compressThreshold || 20;
 
-    if (shouldCompress && session.messages.length > 20) {
+    if (shouldCompress && session.messages.length > threshold) {
         finalSession = await compressSession(session);
     }
 

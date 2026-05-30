@@ -8,8 +8,15 @@
         "activeTab",
         "scripting",
         "tabs",
-        "cliboardWrite"
+        "clipboardWrite"
     ],
+    "background": {
+        "service_worker": "background/service-worker.js",
+        "type": "module"
+    },
+    "action": {
+        "default_popup": "popup/popup.html"
+    },
     "host_permissions": [
     "https://claude.ai/*",
     "https://chat.openai.com/*",
@@ -19,8 +26,8 @@
     "https://chat.deepseek.com/*",
     "https://www.perplexity.ai/*",
     "https://chat.mistral.ai/*",
-    "https://groq.com/*",
     "https://x.com/*",
+    "https://grok.com/*",
     "https://coral.cohere.com/*",
     "https://meta.ai/*",
     "https://copilot.microsoft.com/*",
@@ -77,7 +84,7 @@
       "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-poe.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
     }
     ],
-    "options_page": "options/option.html",
+    "options_page": "options/options.html",
     "icons": {
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",

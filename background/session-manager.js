@@ -11,7 +11,7 @@ export async function saveSession(session) {
     return id;
 }
 
-export async function getAllSession() {
+export async function getAllSessions() {
     const data = await chrome.storage.local.get(STORAGE_KEY);
     const sessions = data[STORAGE_KEY] || {};
     // Return sorted newest first
