@@ -146,10 +146,29 @@ No data ever leaves your browser. Everything is stored locally using `chrome.sto
 
 ---
 
-🌐 Supported Platforms
-PlatformURLCaptureInjectStatusClaudeclaude.ai✅✅SupportedChatGPTchat.openai.com / chatgpt.com✅✅SupportedGeminigemini.google.com✅✅SupportedGroqgroq.com✅✅SupportedDeepSeekchat.deepseek.com✅✅SupportedPerplexityperplexity.ai✅✅SupportedMistral (Le Chat)chat.mistral.ai✅✅SupportedGrokgrok.com / x.com/i/grok✅✅SupportedCohere (Coral)coral.cohere.com✅✅SupportedMeta AImeta.ai✅✅SupportedMicrosoft Copilotcopilot.microsoft.com✅✅SupportedPoepoe.com✅✅SupportedHuggingChathuggingface.co/chat🔜🔜RoadmapPhindphind.com🔜🔜RoadmapYou.comyou.com🔜🔜RoadmapKimi (Moonshot)kimi.moonshot.cn🔜🔜Roadmap
+## 🌐 Supported Platforms
 
-Note: DOM selectors may occasionally break when a platform updates its UI. See Updating DOM Selectors if a scraper stops working.
+| Platform | URL | Capture | Inject | Status |
+|---|---|---|---|---|
+| **Claude** | claude.ai | ✅ | ✅ | Supported |
+| **ChatGPT** | chat.openai.com / chatgpt.com | ✅ | ✅ | Supported |
+| **Gemini** | gemini.google.com | ✅ | ✅ | Supported |
+| **Groq** | groq.com | ✅ | ✅ | Supported |
+| **DeepSeek** | chat.deepseek.com | ✅ | ✅ | Supported |
+| **Perplexity** | perplexity.ai | ✅ | ✅ | Supported |
+| **Mistral (Le Chat)** | chat.mistral.ai | ✅ | ✅ | Supported |
+| **Grok** | grok.com / x.com/i/grok | ✅ | ✅ | Supported |
+| **Cohere (Coral)** | coral.cohere.com | ✅ | ✅ | Supported |
+| **Meta AI** | meta.ai | ✅ | ✅ | Supported |
+| **Microsoft Copilot** | copilot.microsoft.com | ✅ | ✅ | Supported |
+| **Poe** | poe.com | ✅ | ✅ | Supported |
+| **HuggingChat** | huggingface.co/chat | 🔜 | 🔜 | Roadmap |
+| **Phind** | phind.com | 🔜 | 🔜 | Roadmap |
+| **You.com** | you.com | 🔜 | 🔜 | Roadmap |
+| **Kimi (Moonshot)** | kimi.moonshot.cn | 🔜 | 🔜 | Roadmap |
+
+> **Note:** DOM selectors may occasionally break when a platform updates its UI. See [Updating DOM Selectors](#updating-dom-selectors) if a scraper stops working.
+
 
 ---
 
@@ -252,6 +271,28 @@ To add support for a new platform (e.g. Perplexity):
 
 5. **Update `popup.js`** — add the platform to the transfer dropdown and the URL mapping.
 
+### Platform-specific Scraper Reference
+
+Each scraper file follows the same pattern. Here's the selector reference for all supported platforms:
+
+| Platform | Message container selector | Role detection |
+|---|---|---|
+| Claude | `[data-testid="conversation-turn"]` | `[data-testid="human-turn"]` vs `[data-testid="ai-turn"]` |
+| ChatGPT | `[data-message-author-role]` | `data-message-author-role` attribute value |
+| Gemini | `user-query`, `model-response` | Tag name |
+| Groq | `.message-row`, `.human-turn`, `.assistant-turn` | Class name |
+| DeepSeek | `.dad65929`, `.fbb737a4` | Class name (may change on updates) |
+| Perplexity | `[data-testid="user-message"]`, `.prose` | Test ID |
+| Mistral | `.human-turn`, `.assistant-turn` | Class name |
+| Grok | `[data-testid="userMessage"]`, `[data-testid="botMessage"]` | Test ID |
+| Cohere | `.user-message`, `.bot-message` | Class name |
+| Meta AI | `.user-query`, `.assistant-response` | Class name |
+| Copilot | `[data-content="user-message"]`, `[data-content="response"]` | Data attribute |
+| Poe | `.Message_humanMessageBubble__*`, `.Message_botMessageBubble__*` | Class prefix |
+
+> Selectors are best-effort and may need updating if a platform redesigns its UI.
+
+
 ### Updating DOM Selectors
 
 AI platforms update their UI regularly, which can break scrapers. When a scraper stops working:
@@ -268,46 +309,58 @@ The scrapers include fallback selector logic to handle minor UI changes graceful
 ## 🐛 Troubleshooting
 
 **"No AI detected" badge in popup**
-You're not on a supported AI platform tab. Navigate to claude.ai, chatgpt.com, or gemini.google.com first.
+You're not on a supported AI platform tab. Navigate to one of the supported platforms first and make sure you're inside an active chat.
 
 **"Scrape failed" error**
-The platform may have updated its DOM. Open DevTools on the AI site, inspect the chat messages, and update the selectors in the relevant `scraper-*.js` file.
+The platform may have updated its DOM. Open DevTools on the AI site, inspect the chat messages, and update the selectors in the relevant `scraper-*.js` file. See [Updating DOM Selectors](#updating-dom-selectors).
 
 **Prompt was injected but the input looks empty**
-Some platforms use React-controlled inputs. The injector uses native input event dispatching to trigger React state updates — but if it fails, try manually clicking the input box once before transferring.
+Some platforms (especially React-based ones) use controlled inputs. The injector uses native input event dispatching to trigger React state updates. If it still fails, try clicking the input box manually once, then retransfer.
+
+**Groq / DeepSeek chat not captured correctly**
+These platforms sometimes use dynamically generated class names that change on deployment. Open DevTools, inspect a message bubble, and update the selectors in `scraper-groq.js` or `scraper-deepseek.js`.
 
 **Sessions not persisting after browser restart**
 Chrome's `storage.local` persists across restarts by default. If sessions are disappearing, check that the extension has the `storage` permission in `manifest.json`.
 
 **Extension not loading ("Could not load manifest")**
-Ensure your `manifest.json` is valid JSON with no trailing commas. Use a JSON validator if unsure.
+Ensure your `manifest.json` is valid JSON with no trailing commas. Paste it into [jsonlint.com](https://jsonlint.com) to validate.
+
+**Poe.com scraper not working**
+Poe uses hashed CSS class names that change frequently. Inspect the DOM and update the class prefixes in `scraper-poe.js`. Look for elements with `humanMessageBubble` or `botMessageBubble` in the class name.
 
 ---
 
 ## 🗺️ Roadmap
-
-- [ ] Support for Perplexity, Mistral (Le Chat), Grok
+- [ ] HuggingChat (huggingface.co/chat) support
+- [ ] Phind (phind.com) support
+- [ ] You.com support
+- [ ] Kimi / Moonshot support
 - [ ] Cloud sync via optional lightweight backend (sessions across devices)
-- [ ] AI-powered compression using the Anthropic API to summarize mid-sections
-- [ ] One-click "quick transfer" shortcut key
+- [ ] AI-powered compression using the model API to summarize mid-sections
+- [ ] One-click quick-transfer keyboard shortcut
 - [ ] Session search and tagging
 - [ ] Export sessions as `.md` or `.json` files
 - [ ] Firefox version (WebExtensions API port)
 - [ ] Sidebar panel instead of popup for larger session management UI
+- [ ] Auto-detect when credits/rate limits are hit and prompt to transfer
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how to get started:
+Contributions are welcome — especially new platform scrapers! Here's how to get started:
 
 1. Fork the repo
-2. Create a feature branch: `git checkout -b feature/add-perplexity-support`
-3. Make your changes
+2. Create a feature branch: `git checkout -b feature/add-huggingchat-support`
+3. Add your scraper following the [Adding a New Platform](#-adding-a-new-platform) guide
 4. Test by loading the unpacked extension in Chrome
-5. Submit a pull request with a clear description of what you changed and why
+5. Submit a pull request with:
+   - Which platform you added
+   - The DOM selectors you used and how you found them
+   - Any known fragility (e.g. dynamic class names)
 
-Please keep PRs focused — one feature or fix per PR makes review much easier.
+Please keep PRs focused — one platform or fix per PR makes review much easier.
 
 ---
 
