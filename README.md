@@ -73,12 +73,11 @@ No data ever leaves your browser. Everything is stored locally using `chrome.sto
 
 ## 📁 Project Structure
 
-```
+
 ![alt text](image.png)
 
 ---
 
-```
 
 ![alt text](image-1.png)
 
