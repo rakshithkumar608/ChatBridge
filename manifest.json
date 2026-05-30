@@ -1,0 +1,86 @@
+{
+    "manifest_version": 3,
+    "name": "ChatBridge",
+    "version": "1.0.0",
+    "description" : "A browser extension that bridges communication between ChatGPT and other platforms.",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "tabs",
+        "cliboardWrite"
+    ],
+    "host_permissions": [
+    "https://claude.ai/*",
+    "https://chat.openai.com/*",
+    "https://chatgpt.com/*",
+    "https://gemini.google.com/*",
+    "https://groq.com/*",
+    "https://chat.deepseek.com/*",
+    "https://www.perplexity.ai/*",
+    "https://chat.mistral.ai/*",
+    "https://grok.com/*",
+    "https://x.com/*",
+    "https://coral.cohere.com/*",
+    "https://meta.ai/*",
+    "https://copilot.microsoft.com/*",
+    "https://poe.com/*"
+    ],
+
+    "content_scripts": [
+        {
+      "matches": ["https://claude.ai/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-claude.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-chatgpt.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-gemini.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://groq.com/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-groq.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://chat.deepseek.com/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-deepseek.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://www.perplexity.ai/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-perplexity.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://chat.mistral.ai/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-mistral.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://grok.com/*", "https://x.com/i/grok*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-grok.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://coral.cohere.com/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-cohere.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://meta.ai/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-meta.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://copilot.microsoft.com/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-copilot.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    },
+    {
+      "matches": ["https://poe.com/*"],
+      "js": ["content-scripts/provider-detector.js", "content-scripts/scraper-poe.js", "content-scripts/injector.js", "content-scripts/prompt-enhancer.js"]
+    }
+    ],
+    "options_page": "options/option.html",
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+}
