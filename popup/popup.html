@@ -38,12 +38,31 @@
      <!-- Enhance Tab -->
      <div class="tab-content hidden" id="tab-enhance">
          <textarea id="enhance-input" placeholder="Paste your prompt here..." rows="5"></textarea>
-         <select id="enhance-mode">
-             <option value="clarity">Make clearer</option>
-             <option value="detailed">Add more detail</option>
-             <option value="structured">Make structured</option>
-             <option value="concise">Make concise</option>
-         </select>
+         <select class="target-select" data-id="${s.id}">
+  <option value="">Transfer to...</option>
+  <optgroup label="Anthropic">
+    <option value="claude">Claude (new account)</option>
+  </optgroup>
+  <optgroup label="OpenAI">
+    <option value="chatgpt">ChatGPT</option>
+  </optgroup>
+  <optgroup label="Google">
+    <option value="gemini">Gemini</option>
+  </optgroup>
+  <optgroup label="xAI">
+    <option value="grok">Grok</option>
+  </optgroup>
+  <optgroup label="Other">
+    <option value="groq">Groq</option>
+    <option value="deepseek">DeepSeek</option>
+    <option value="perplexity">Perplexity</option>
+    <option value="mistral">Mistral (Le Chat)</option>
+    <option value="cohere">Cohere (Coral)</option>
+    <option value="meta">Meta AI</option>
+    <option value="copilot">Microsoft Copilot</option>
+    <option value="poe">Poe</option>
+  </optgroup>
+</select>
          <button id="enhance-btn" class="btn secondary">✨ Enhance Prompt</button>
          <div id="enhanced-output" class="output hidden"></div>
          <button id="copy-enhanced" class="btn ghost hidden">📋 Copy</button>

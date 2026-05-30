@@ -102,9 +102,18 @@ async function transferSession(id) {
   const prompt = buildContinuityPrompt(session, { targetProvider: target });
 
   const URLS = {
-    claude: 'https://claude.ai/new',
-    chatgpt: 'https://chat.openai.com/',
-    gemini: 'https://gemini.google.com/app'
+    claude:     'https://claude.ai/new',
+  chatgpt:    'https://chatgpt.com/',
+  gemini:     'https://gemini.google.com/app',
+  groq:       'https://groq.com/',
+  deepseek:   'https://chat.deepseek.com/',
+  perplexity: 'https://www.perplexity.ai/',
+  mistral:    'https://chat.mistral.ai/',
+  grok:       'https://grok.com/',
+  cohere:     'https://coral.cohere.com/',
+  meta:       'https://meta.ai/',
+  copilot:    'https://copilot.microsoft.com/',
+  poe:        'https://poe.com/'
   };
 
   // Open new tab and inject after load

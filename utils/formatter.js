@@ -1,31 +1,29 @@
-export function formateForProvider(session, targetProvider) {
-    const formatters = {
-        claude: formatForClaude,
-        chatgpt: formatForChatGPT,
-        gemini: formatForGemini
-    };
+export function formatForProvider(session, targetProvider) {
+  const formatters = {
+    claude:     formatUserAssistant,
+    chatgpt:    formatUserAssistant,
+    gemini:     formatForGemini,      // uses 'model' instead of 'assistant'
+    groq:       formatUserAssistant,
+    deepseek:   formatUserAssistant,
+    perplexity: formatUserAssistant,
+    mistral:    formatUserAssistant,
+    grok:       formatUserAssistant,
+    cohere:     formatUserAssistant,
+    meta:       formatUserAssistant,
+    copilot:    formatUserAssistant,
+    poe:        formatUserAssistant
+  };
 
-    const fn = formatters[targetProvider] || formatForChatGPT;
-    return fn(session);
+  return (formatters[targetProvider] || formatUserAssistant)(session);
 }
 
-function formatForClaude(session) {
-    return session.messages.map(m => ({
-        role: m.role === 'assistant' ? 'assistant' : 'user',
-        content: m.content
-    }));
-}
-
-function formatForChatGPT(session) {
-    return session.messages.map(m => ({
-        role: m.role,
-        content: m.content
-    }));
+function formatUserAssistant(session) {
+  return session.messages.map(m => ({ role: m.role, content: m.content }));
 }
 
 function formatForGemini(session) {
-    return session.messages.map(m => ({
-        role: m.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: m.content }]
-    }));
+  return session.messages.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }]
+  }));
 }
