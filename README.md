@@ -74,44 +74,15 @@ No data ever leaves your browser. Everything is stored locally using `chrome.sto
 ## 📁 Project Structure
 
 ```
-chatbridge/
-│
-├── manifest.json                  # Chrome MV3 config, permissions, host access
-│
-├── background/
-│   ├── service-worker.js          # Main service worker, message router
-│   ├── session-manager.js         # Save / load / delete sessions
-│   └── context-compressor.js      # Smart chat summarizer for long histories
-│
-├── content-scripts/
-│   ├── provider-detector.js       # Detects which AI site the tab is on
-│   ├── scraper-claude.js          # Extracts messages from Claude's DOM
-│   ├── scraper-chatgpt.js         # Extracts messages from ChatGPT's DOM
-│   ├── scraper-gemini.js          # Extracts messages from Gemini's DOM
-│   ├── injector.js                # Injects continuity prompt into target input
-│   └── prompt-enhancer.js         # Enhances prompts + floating enhance button
-│
-├── popup/
-│   ├── popup.html                 # Extension popup UI (3 tabs)
-│   ├── popup.js                   # Popup logic — capture, sessions, enhance
-│   └── popup.css                  # Popup styles
-│
-├── utils/
-│   ├── storage.js                 # Encrypted localStorage wrapper
-│   ├── formatter.js               # Formats chat history per target model
-│   └── continuity-prompt.js       # Builds the resume-chat prompt
-│
-├── options/
-│   ├── options.html               # Settings page
-│   └── options.js                 # Settings logic
-│
-└── icons/
-    ├── icon16.png
-    ├── icon48.png
-    └── icon128.png
-```
+![alt text](image.png)
 
 ---
+
+```
+
+![alt text](image-1.png)
+
+
 
 ## 🚀 Installation
 
