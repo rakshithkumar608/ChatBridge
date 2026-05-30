@@ -3,28 +3,23 @@
 
   window.__chatbridge.scrapeChat = function() {
     const messages = [];
-    const turns = document.querySelectorAll('.message-row, [class*="message-row"]');
 
-    turns.forEach((turn) => {
-      const isUser = turn.querySelector('[class*="human"], [class*="user-message"]') !== null;
-      const textEl = turn.querySelector('[class*="message-content"], p, .prose');
-      const text = textEl ? textEl.innerText.trim() : turn.innerText.trim();
+    // grok.com structure
+    const userMsgs = document.querySelectorAll('[data-testid="userMessage"], [class*="userMessage"]');
+    const botMsgs  = document.querySelectorAll('[data-testid="botMessage"],  [class*="botMessage"]');
 
+    // Interleave by DOM position
+    const all = [...document.querySelectorAll(
+      '[data-testid="userMessage"], [data-testid="botMessage"], [class*="userMessage"], [class*="botMessage"]'
+    )];
+
+    all.forEach(el => {
+      const isUser = el.dataset.testid === 'userMessage' || el.className.includes('userMessage');
+      const text = el.innerText.trim();
       if (text) messages.push({ role: isUser ? 'user' : 'assistant', content: text });
     });
 
-    // Fallback: try role-labeled divs
-    if (messages.length === 0) {
-      document.querySelectorAll('[data-role]').forEach(el => {
-        const role = el.getAttribute('data-role');
-        const text = el.innerText.trim();
-        if (text && (role === 'user' || role === 'assistant')) {
-          messages.push({ role, content: text });
-        }
-      });
-    }
-
-    return { provider: 'groq', url: location.href, title: document.title, messages, capturedAt: new Date().toISOString() };
+    return { provider: 'grok', url: location.href, title: document.title, messages, capturedAt: new Date().toISOString() };
   };
 
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
