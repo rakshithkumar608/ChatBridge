@@ -2,15 +2,33 @@
     window.__chatbridge = window.__chatbridge || {};
 
     const INPUT_SELECTORS = {
-        claude:   'div[contenteditable="true"].ProseMirror, textarea[data-testid="chat-input"]',
-        chatgpt:  '#prompt-textarea, textarea[data-id="root"]',
-        gemini:   'div[contenteditable="true"].ql-editor, rich-textarea .ql-editor'
+    claude:     'div[contenteditable="true"].ProseMirror, textarea[data-testid="chat-input"]',
+  chatgpt:    '#prompt-textarea, textarea[data-id="root"]',
+  gemini:     'div[contenteditable="true"].ql-editor, rich-textarea .ql-editor',
+  groq:       'textarea[placeholder], div[contenteditable="true"]',
+  deepseek:   'textarea#chat-input, div[contenteditable="true"]',
+  perplexity: 'textarea[placeholder="Ask anything..."], textarea.overflow-auto',
+  mistral:    'textarea[placeholder], div[contenteditable="true"]',
+  grok:       'textarea[data-testid="tweetTextarea_0"], div[contenteditable="true"]',
+  cohere:     'textarea[placeholder], div[contenteditable="true"]',
+  meta:       'div[contenteditable="true"][role="textbox"], textarea',
+  copilot:    'textarea#userInput, div[contenteditable="true"]',
+  poe:        'textarea.GrowingTextArea_textArea__ZWQbP, div[contenteditable="true"]'
     };
 
     const SUBMIT_SELECTORS = {
-        claude:   'button[aria-label="Send Message"], button[data-testid="send-button"]',
-        chatgpt:  'button[data-testid="send-button"], button[aria-label="Send prompt"]',
-        gemini:   'button[aria-label="Send message"], .send-button'
+        claude:     'button[aria-label="Send Message"], button[data-testid="send-button"]',
+  chatgpt:    'button[data-testid="send-button"], button[aria-label="Send prompt"]',
+  gemini:     'button[aria-label="Send message"], .send-button',
+  groq:       'button[type="submit"], button[aria-label="Send"]',
+  deepseek:   'button[aria-label="send"], div[role="button"].send-button',
+  perplexity: 'button[aria-label="Submit"], button.bg-super',
+  mistral:    'button[type="submit"], button[data-testid="send-button"]',
+  grok:       'button[data-testid="tweetButton"], button[aria-label="Send"]',
+  cohere:     'button[aria-label="send message"], button[type="submit"]',
+  meta:       'button[aria-label="Send message"], div[role="button"]',
+  copilot:    'button[aria-label="Submit message"], button[type="submit"]',
+  poe:        'button.ChatMessageSendButton_sendButton__4ZyI4, button[class*="sendButton"]'
     };
 
     async function injectPrompt(text, autoSubmit = false) {
