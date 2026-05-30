@@ -9,7 +9,15 @@ export function buildContinuityPrompt(session, options = {}) {
     const providerNames = {
         claude: 'Claude (Anthropic)',
         chatgpt: 'ChatGPT (OpenAI)',
-        gemini: 'Gemini (Google)'
+        gemini: 'Gemini (Google)',
+        groq: 'Groq',
+        deepseek: 'DeepSeek',
+        perplexity: 'Perplexity',
+        mistral: 'Mistral',
+        cohere: 'Cohere',
+        meta: 'Meta AI',
+        copilot: 'Copilot (Microsoft)',
+        poe: 'Poe (Quora)'
     };
 
     let prompt = `I was having a conversation with ${providerNames[provider] || 'an AI assistant'} and I need to continue it here. Please read the conversation history below and then continue from where we left off, maintaining the same context, tone, and any ongoing tasks.\n\n`;

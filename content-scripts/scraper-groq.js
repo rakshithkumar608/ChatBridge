@@ -19,7 +19,7 @@
       if (text) messages.push({ role: isUser ? 'user' : 'assistant', content: text });
     });
 
-    return { provider: 'grok', url: location.href, title: document.title, messages, capturedAt: new Date().toISOString() };
+    return { provider: 'groq', url: location.href, title: document.title, messages, capturedAt: new Date().toISOString() };
   };
 
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
