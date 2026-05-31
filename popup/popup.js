@@ -160,10 +160,50 @@ document.getElementById('enhance-btn').addEventListener('click', () => {
   if (!input) return;
 
   const TEMPLATES = {
-    clarity: `Rewrite the following prompt to be clearer and more specific, without changing the intent:\n\n"${input}"\n\nClearer version:`,
-    detailed: `Expand this prompt with more detail and context:\n\n"${input}"`,
-    structured: `Rewrite this as a well-structured prompt with clear objective, context, and desired output:\n\n"${input}"`,
-    concise: `Make this prompt shorter and more direct while keeping all key information:\n\n"${input}"`
+    clarity: `Please execute the following task with extreme clarity and precision.
+
+# Task
+${input}
+
+# Instructions
+- Break down the response into simple, easy-to-understand terms.
+- Avoid ambiguity, jargon, and ensure the core answer is straightforward.
+- Provide concrete examples where necessary to ensure crystal-clear understanding.`,
+
+    detailed: `Please execute the following task by providing a highly detailed and comprehensive response.
+
+# Task
+${input}
+
+# Instructions
+- Cover all relevant edge cases, nuances, and background context related to the topic.
+- Provide step-by-step explanations and deep-dive into the underlying concepts.
+- Anticipate potential follow-up questions and address them proactively.`,
+
+    structured: `Please execute the following task. Format your response strictly according to the structure requested below.
+
+# Task / Objective
+${input}
+
+# Guidelines
+1. Be highly organized, logical, and systematic in your approach.
+2. Use clear headings, bullet points, and markdown formatting for readability.
+3. Ensure all constraints are respected.
+
+# Desired Output Format
+- **Executive Summary:** A brief 1-2 sentence overview.
+- **Main Content:** The core answer or code, structured logically.
+- **Key Takeaways / Conclusion:** A brief summary of the most important points.`,
+
+    concise: `Please execute the following task as concisely and directly as possible.
+
+# Task
+${input}
+
+# Instructions
+- Eliminate all fluff, filler words, and conversational pleasantries.
+- Get straight to the point immediately.
+- Provide the absolute minimum text required to answer accurately and completely.`
   };
 
   const enhanced = TEMPLATES[mode];

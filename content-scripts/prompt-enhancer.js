@@ -2,10 +2,10 @@
     window.__chatbridge = window.__chatbridge || {};
 
     const ENHANCE_TEMPLATES = {
-        clarity: (p) => `Please rewrite the following prompt to be clearer and more specific:\n\n"${p}"\n\nEnhanced version:`,
-        detailed: (p) => `Expand this prompt with more context and detail:\n\n"${p}"`,
-        structured: (p) => `Rewrite this as a well-structured prompt with clear objectives:\n\n"${p}"`,
-        concise: (p) => `Make this prompt more concise while keeping all key information:\n\n"${p}"`
+        clarity: (p) => `Please execute the following task with extreme clarity and precision.\n\n# Task\n${p}\n\n# Instructions\n- Break down the response into simple, easy-to-understand terms.\n- Avoid ambiguity, jargon, and ensure the core answer is straightforward.\n- Provide concrete examples where necessary to ensure crystal-clear understanding.`,
+        detailed: (p) => `Please execute the following task by providing a highly detailed and comprehensive response.\n\n# Task\n${p}\n\n# Instructions\n- Cover all relevant edge cases, nuances, and background context related to the topic.\n- Provide step-by-step explanations and deep-dive into the underlying concepts.\n- Anticipate potential follow-up questions and address them proactively.`,
+        structured: (p) => `Please execute the following task. Format your response strictly according to the structure requested below.\n\n# Task / Objective\n${p}\n\n# Guidelines\n1. Be highly organized, logical, and systematic in your approach.\n2. Use clear headings, bullet points, and markdown formatting for readability.\n3. Ensure all constraints are respected.\n\n# Desired Output Format\n- **Executive Summary:** A brief 1-2 sentence overview.\n- **Main Content:** The core answer or code, structured logically.\n- **Key Takeaways / Conclusion:** A brief summary of the most important points.`,
+        concise: (p) => `Please execute the following task as concisely and directly as possible.\n\n# Task\n${p}\n\n# Instructions\n- Eliminate all fluff, filler words, and conversational pleasantries.\n- Get straight to the point immediately.\n- Provide the absolute minimum text required to answer accurately and completely.`
     };
 
 
