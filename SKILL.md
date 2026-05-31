@@ -1,3 +1,9 @@
+---
+title: Prompt Enhancer Skills & Formatter
+description: High-level prompt structures for ChatBridge enhancement.
+version: 1.0.0
+---
+
 # ⚡ ChatBridge - Prompt Enhancer Skills & Formatter
 
 The ChatBridge Prompt Enhancer works by wrapping your short requests into highly structured, high-level "Master Prompts" before sending them to the AI. 
