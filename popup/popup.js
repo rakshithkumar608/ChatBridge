@@ -44,9 +44,22 @@ document.getElementById('capture-btn').addEventListener('click', async () => {
   const status = document.getElementById('capture-status');
 
   try {
+    status.textContent = '⏳ Capturing...';
+    status.style.color = '#888';
+    status.classList.remove('hidden');
+
     const resp = await chrome.tabs.sendMessage(tab.id, { action: 'SCRAPE_CHAT' });
 
-    if (!resp?.success) throw new Error('Scrape failed');
+    if (!resp?.success) {
+      throw new Error(resp?.error || 'Scrape failed — unknown error');
+    }
+
+    if (!resp.session.messages.length) {
+      status.textContent = `⚠️ Connected but 0 messages found. Make sure you are inside an open chat (not the home page).`;
+      status.style.color = 'orange';
+      status.classList.remove('hidden');
+      return;
+    }
 
     await chrome.runtime.sendMessage({
       action: 'SAVE_SESSION',
@@ -58,7 +71,11 @@ document.getElementById('capture-btn').addEventListener('click', async () => {
     status.style.color = 'green';
     status.classList.remove('hidden');
   } catch (err) {
-    status.textContent = `❌ Error: ${err.message}`;
+    if (err.message.includes('Receiving end does not exist')) {
+      status.textContent = `❌ Please refresh the page then try again.`;
+    } else {
+      status.textContent = `❌ Error: ${err.message}`;
+    }
     status.style.color = 'red';
     status.classList.remove('hidden');
   }
@@ -131,16 +148,16 @@ async function transferSession(id) {
 
   const URLS = {
     claude:     'https://claude.ai/new',
-  chatgpt:    'https://chatgpt.com/',
-  gemini:     'https://gemini.google.com/app',
-  groq:       'https://groq.com/',
-  deepseek:   'https://chat.deepseek.com/',
-  perplexity: 'https://www.perplexity.ai/',
-  mistral:    'https://chat.mistral.ai/',
-  grok:       'https://grok.com/',
-  cohere:     'https://coral.cohere.com/',
-  meta:       'https://meta.ai/',
-  copilot:    'https://copilot.microsoft.com/',
+    chatgpt:    'https://chatgpt.com/',
+    gemini:     'https://gemini.google.com/app',
+    groq:       'https://groq.com/chat',
+    deepseek:   'https://chat.deepseek.com/',
+    perplexity: 'https://www.perplexity.ai/',
+    mistral:    'https://chat.mistral.ai/chat',
+    grok:       'https://grok.com/',
+    cohere:     'https://coral.cohere.com/',
+    meta:       'https://meta.ai/',
+    copilot:    'https://copilot.microsoft.com/',
   poe:        'https://poe.com/'
   };
 
